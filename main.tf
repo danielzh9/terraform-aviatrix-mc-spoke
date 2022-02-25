@@ -62,7 +62,7 @@ resource "aviatrix_spoke_gateway" "default" {
   tags                                  = var.tags
   availability_domain                   = local.cloud == "oci" ? aviatrix_vpc.default[0].availability_domains[0] : null
   fault_domain                          = local.cloud == "oci" ? aviatrix_vpc.default[0].fault_domains[0] : null
-  ha_availability_domain                = var.ha_gw ? (local.cloud == "oci" ? aviatrix_vpc.default[0].availability_domains[1] : null) : null
+  ha_availability_domain                = var.ha_gw ? (local.cloud == "oci" ? (aviatrix_vpc.default[0].name == "us-sanjose-1" ? aviatrix_vpc.default[0].availability_domains[1] : aviatrix_vpc.default[0].availability_domains[0]) : null) : null
   ha_fault_domain                       = var.ha_gw ? (local.cloud == "oci" ? aviatrix_vpc.default[0].fault_domains[1] : null) : null
   enable_bgp                            = var.enable_bgp
   spoke_bgp_manual_advertise_cidrs      = var.spoke_bgp_manual_advertise_cidrs
